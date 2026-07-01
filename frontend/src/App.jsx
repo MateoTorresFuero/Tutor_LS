@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Home } from "./pages/Home";
-import { Learn } from "./pages/Learn";
-import { Challenge } from "./pages/Challenge";
+import { Aprender } from "./pages/Aprender";
+import { Retos } from "./pages/Retos";
 import "./App.css";
 
 function App() {
@@ -10,8 +10,8 @@ function App() {
       <div className="app-container">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/learn" element={<Learn />} />
-          <Route path="/challenge" element={<Challenge />} />
+          <Route path="/learn" element={<Aprender />} />
+          <Route path="/challenge" element={<Retos />} />
         </Routes>
       </div>
     </BrowserRouter>

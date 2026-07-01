@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-export function Learn() {
+export function Aprender() {
   const [target, setTarget] = useState("A");
 
   return (
