@@ -17,11 +17,22 @@ SALIDAS_DIR = Path(__file__).resolve().parent / "salidas"
 FEATURE_COLS = [f"{c}{i}" for i in range(21) for c in ("x", "y", "z")]
 
 
+def normalizar_landmarks(X):
+    X = X.reshape(-1, 21, 3)
+    wrist = X[:, 0:1, :]
+    X = X - wrist
+    scale = np.max(np.abs(X), axis=(1, 2), keepdims=True)
+    scale = np.where(scale == 0, 1, scale)
+    X = X / scale
+    return X.reshape(-1, 63)
+
+
 def cargar_datos():
     df = pd.read_csv(CSV_PATH)
     df["label"] = df["label"].replace({"del": "delete"})
 
     X = df[FEATURE_COLS].values.astype(np.float32)
+    X = normalizar_landmarks(X)
     y_raw = df["label"].values
 
     encoder = LabelEncoder()
