@@ -1,5 +1,5 @@
 export function GuiaAbecedario({ letter }) {
-  const imageUrl = `https://raw.githubusercontent.com/sitepoint-editors/asl-alphabet/master/assets/images/${letter.toLowerCase()}.png`;
+  const imageUrl = `https://raw.githubusercontent.com/aryanvasudev/Sign-Language-Translator-Fingerspelling-Detector/master/datasets/letter_images/${letter.toUpperCase()}.png`;
 
   return (
     <div className="alphabet-guide-box">
