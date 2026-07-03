@@ -2,17 +2,22 @@ import { useRef, useEffect } from "react";
 import { useMediaPipe } from "../hooks/useMediaPipe";
 import { useWebSocket } from "../hooks/useWebSocket";
 
-export function Camera({ onPrediction }) {
+export function Camara({ onPrediction }) {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const rafRef = useRef(null);
+  const frameCountRef = useRef(0);
+  const SEND_EVERY = 3;
 
   const { prediction, connected, sendLandmarks } = useWebSocket(
     import.meta.env.VITE_WS_URL
   );
 
   const { detect, ready } = useMediaPipe((flat, landmarks) => {
-    sendLandmarks(flat);
+    frameCountRef.current += 1;
+    if (frameCountRef.current % SEND_EVERY === 0) {
+      sendLandmarks(flat);
+    }
     drawLandmarks(landmarks);
   });
 
