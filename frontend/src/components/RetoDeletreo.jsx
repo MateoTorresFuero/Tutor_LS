@@ -18,17 +18,16 @@ export function RetoDeletreo({ prediction }) {
     const currentLetter = word[letterIndex];
 
     if (prediction && prediction.letra === currentLetter && prediction.confianza > 0.75) {
-      setHoldCount((prev) => {
-        const nextVal = prev + 1;
-        if (nextVal >= HOLD_FRAMES) {
-          advanceLetter();
-          return 0;
-        }
-        return nextVal;
-      });
+      if (holdCount + 1 >= HOLD_FRAMES) {
+        setHoldCount(0);
+        advanceLetter();
+      } else {
+        setHoldCount(holdCount + 1);
+      }
     } else {
-      setHoldCount(0);
+      if (holdCount !== 0) setHoldCount(0);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [prediction, word, letterIndex]);
 
   function selectNewWord(currentWord = "") {

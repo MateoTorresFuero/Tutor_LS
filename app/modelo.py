@@ -2,6 +2,17 @@ import json
 import numpy as np
 from app.config import MODEL_PATH, MAPEO_CLASES_PATH
 
+
+def _normalizar(landmarks):
+    X = np.array(landmarks, dtype=np.float32).reshape(21, 3)
+    wrist = X[0]
+    X = X - wrist
+    scale = np.max(np.abs(X))
+    if scale > 0:
+        X = X / scale
+    return X.reshape(1, 63)
+
+
 class ASLModel:
     def __init__(self):
         self.model = None
@@ -27,7 +38,7 @@ class ASLModel:
     def predict(self, landmarks: list[float]) -> tuple[str, float]:
         """Realiza la predicción de la seña basada en los landmarks recibidos."""
         if self.model is not None:
-            input_array = np.array(landmarks, dtype=np.float32).reshape(1, -1)
+            input_array = _normalizar(landmarks)
             probabilities = self.model(input_array, training=False).numpy()[0]
             predicted_index = int(np.argmax(probabilities))
             confidence = float(probabilities[predicted_index])
